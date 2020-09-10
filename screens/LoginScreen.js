@@ -29,6 +29,8 @@ export default class LoginScreen extends React.Component {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .catch(error => this.setState({ errorMessage: error.message }));
+      
+    
   };
 
   render() {
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: 30,
     backgroundColor: '#E9446a',
-    borderRadius: 4,
+    borderRadius: 10,
     height: 52,
     alignItems: 'center',
     justifyContent: 'center'

@@ -6,8 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  StatusBar,
-  LayoutAnimation
+  StatusBar,Keyboard,
+  LayoutAnimation,
+  KeyboardAvoidingView,TouchableWithoutFeedback
 } from 'react-native';
 import * as firebase from 'firebase';
 
@@ -20,11 +21,11 @@ export default class RegisterScreen extends React.Component {
     name : '',
     email: '',
     password: '',
-    errorMessage: null
+    errorMessage: " "
   };
 
   handleSignUp = () => {
-    const { name,email, password } = this.state;
+    const { name,email, password,errorMessage } = this.state;
 
 
     firebase
@@ -34,15 +35,18 @@ export default class RegisterScreen extends React.Component {
           return userCredentials.user.updateProfile({
               displayName : name
           })
-      })
+      } 
+      )
       .catch(error => this.setState({ errorMessage: error.message }));
+      // if (errorMessage === " ") firebase.database().ref("Users/" + name).set({email : email});
   };
 
   render() {
     LayoutAnimation.easeInEaseOut();
 
     return (
-      <View style={styles.container}>
+      
+        <View style={styles.container}>
         <StatusBar barStyle='light-content'></StatusBar>
         <Image
           source={require('../assets/authHeader.png')}
@@ -122,6 +126,8 @@ export default class RegisterScreen extends React.Component {
           </Text>
         </TouchableOpacity>
       </View>
+      
+      
     );
   }
 }

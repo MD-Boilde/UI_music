@@ -5,24 +5,25 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,
+  StatusBar,KeyboardAvoidingView,
 } from 'react-native';
 
 import HomeScreen from './screens/HomeScreen';
 import LoadingScreen from './screens/LoadingScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import MessageScreen from './screens/MessageScreen';
+import PlaylistScreen from './screens/PlaylistScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import * as firebase from 'firebase';
 import {createAppContainer,createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator } from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
+import SettingScreen from './screens/SettingScreen';
 
 var firebaseConfig = {     
   apiKey : "AIzaSyBygjtzIr7Kvx7i1znFI1EtRVkNq3PZZq8" ,    
   authDomain : "socialapp-88d7b.firebaseapp.com" ,     
-  databaseURL : "https: // socialapp-88d7b.firebaseio.com " ,
+  databaseURL : "https://socialapp-88d7b.firebaseio.com" ,
   projectId : "socialapp-88d7b" ,     
   storageBucket : "socialapp-88d7b.appspot.com" ,     
   messagingSenderId : "680553377304" ,     
@@ -40,7 +41,7 @@ const AppTabNavigator = createBottomTabNavigator(
       }
     },
     Message : {
-      screen : MessageScreen,
+      screen : PlaylistScreen,
       navigationOptions : {
         tabBarIcon :({tintColor}) => <Image
         source ={require('./assets/message.png')} style ={styles.addAvatar}
@@ -68,7 +69,8 @@ const AppTabNavigator = createBottomTabNavigator(
 
 const AuthStack = createStackNavigator({
   Login : LoginScreen,
-  Register : RegisterScreen
+  Register : RegisterScreen,
+  
 });
 
 export default createAppContainer(
@@ -76,7 +78,9 @@ export default createAppContainer(
     {
         Loading : LoadingScreen,
         App : AppTabNavigator,
-        Auth : AuthStack
+        Auth : AuthStack,
+        Message : PlaylistScreen,
+        Setting : SettingScreen
     },
     {
       initialRouteName : "Loading"

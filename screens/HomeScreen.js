@@ -11,20 +11,20 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase';
 class HomeScreen extends React.Component{
+    signOutUser = ()=>{
+        firebase.auth().signOut();
+    }
     render(){
         return(
-            <View>
+            <View style={style.container}>
                 <Text>HomeScreen</Text>
                 <TouchableOpacity
                     style={{ alignSelf: 'center', marginTop: 32 }}
                     onPress={() => {
-                        this.props.navigation.navigate('Login');
+                        this.signOutUser();
                     }}
                 >
-                    <Text style={{ color: '#414959', fontSize: 13 }}>
-                        Have a account?{' '}
-                        <Text style={{ fontWeight: '500', color: '#E9446A' }}>Sign In</Text>
-                    </Text>
+                    <Text style={{ fontWeight: '500', color: '#E9446A' }}>Sign Out</Text>
                 </TouchableOpacity>
             </View>
         )
