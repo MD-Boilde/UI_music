@@ -6,8 +6,7 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
-    StatusBar,
-    LayoutAnimation
+
 } from 'react-native';
 import * as firebase from 'firebase';
 import { SafeAreaView } from 'react-navigation';
@@ -18,17 +17,21 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ListSong from '../assets/ListSongDB';
 import LinearGradient from 'react-native-linear-gradient';
 
-const ProfileItem = ({ icon, name }) => (
-    <View style={style.itemContainer}>
-        <MaterialCommunityIcons name={icon} size={26} color="#1e1e1e" />
-        <Text style={[style.itemText, { marginLeft: icon ? 20 : 0 }]}>{name}</Text>
-        <FontAwesome name="angle-right" size={26} color="#1e1e1e" />
-    </View>
-);
-const ListSongItem = () => (
+const ProfileItem = ({ icon, name, screen }) => {
+
+    return (
+
+        <View style={style.itemContainer}>
+            <MaterialCommunityIcons name={icon} size={26} color="#1e1e1e" />
+            <Text style={[style.itemText, { marginLeft: icon ? 20 : 0 }]}>{name}</Text>
+            <FontAwesome onPress={() => { }} name="angle-right" size={26} color="#1e1e1e" />
+        </View>
+    )
+};
+const ListSongItem = (props) => (
     <View>
         <FlatList
-       
+
             data={ListSong}
             keyExtractor={(item, index) => item.id}
             renderItem={({ item }) => (
@@ -45,6 +48,12 @@ const ListSongItem = () => (
     </View>
 );
 class ProfileScreen extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+
+        }
+    }
     render() {
         return (
             <View style={style.screenContainer}>
@@ -73,12 +82,16 @@ class ProfileScreen extends React.Component {
                     <View style={{ flexDirection: "column" }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 15 }}>Library</Text>
-                            <Text style={{ marginRight: 15 }}>View all</Text>
+                            <Text onPress={() => { this.props.navigation.navigate('ListSongs') }} style={{ marginRight: 15 }}>View all</Text>
                         </View>
-                        <ProfileItem icon="music" name="All songs" />
+
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('ListSongs') }}>
+                            <ProfileItem  icon="music" name="All songs" />
+                        </TouchableOpacity>
                         <ProfileItem icon="download" name="Download" />
                         <ProfileItem icon="history" name="Recently Played" />
                         <ProfileItem icon="format-list-bulleted" name="Playlist" />
+
                         <View style={style.divider} />
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 15 }}>Your Playlist</Text>
@@ -89,10 +102,10 @@ class ProfileScreen extends React.Component {
                     </View>
                 </View>
 
-                <View  style={{flex:1}}>
-                    <ScrollView>
+                <View style={{ flex: 1 }}>
+                    
                         <ListSongItem />
-                    </ScrollView>
+                    
                 </View>
             </View>
 
@@ -153,7 +166,7 @@ const style = StyleSheet.create({
     itemText: {
         flex: 1,
         color: '#1e1e1e',
-        fontSize: 18
+        fontSize: 16
     },
     imageList: {
         height: 50,

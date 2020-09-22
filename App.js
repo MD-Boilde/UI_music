@@ -2,10 +2,7 @@ import React from 'react';
 import {
   SafeAreaView,Image,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,KeyboardAvoidingView,
+ 
 } from 'react-native';
 
 import HomeScreen from './screens/HomeScreen';
@@ -14,11 +11,23 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PlaylistScreen from './screens/PlaylistScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import Musicplayer from './screens/Setting/Musicplayer&MV'
 import * as firebase from 'firebase';
 import {createAppContainer,createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator } from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import SettingScreen from './screens/SettingScreen';
+import SettingScreen from './screens/Setting/SettingScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ChartScreen from './screens/ChartSongTab/ChartScreen';
+import DiscoverScreen from './screens/DiscoverTab/DiscoverScreen';
+import PropTypes from 'prop-types'
+import Search from './screens/Search';
+import CreateNewList from './components/CreateNewList';
+import ListSongScreen from './screens/ListSongScreen';
+import PlayMusicScreen from './screens/PlayMusicScreen';
+import PlayOneSong from './screens/PlayOneSong';
 
 var firebaseConfig = {     
   apiKey : "AIzaSyBygjtzIr7Kvx7i1znFI1EtRVkNq3PZZq8" ,    
@@ -35,33 +44,44 @@ const AppTabNavigator = createBottomTabNavigator(
     Home : {
       screen : HomeScreen,
       navigationOptions :{
-        tabBarIcon :({tintColor}) =><Image
-          source ={require('./assets/home.png')} style ={styles.addAvatar}
-        ></Image>
+        tabBarIcon :({tintColor}) =>
+        <Ionicons name ="home" size ={26}></Ionicons>
       }
     },
-    Message : {
+    Discover : {
+      screen : DiscoverScreen,
+      navigationOptions :{
+        tabBarIcon :({tintColor}) =>
+        <MaterialCommunityIcons name ="music-circle-outline" size ={26}></MaterialCommunityIcons>
+      }
+    },
+    Playlist : {
       screen : PlaylistScreen,
       navigationOptions : {
-        tabBarIcon :({tintColor}) => <Image
-        source ={require('./assets/message.png')} style ={styles.addAvatar}
-      ></Image>
+        tabBarIcon :({tintColor}) => 
+        <MaterialCommunityIcons name="playlist-music" size={26}></MaterialCommunityIcons>
       }
     },
     Profile : {
       screen : ProfileScreen,
       navigationOptions : {
-        tabBarIcon : ({tintColor}) => <Image
-        source ={require('./assets/man.png')} style ={styles.addAvatar}
-      ></Image>
+        tabBarIcon : ({tintColor}) => <FontAwesome name="user-o" size={26}></FontAwesome>
+      }
+    },
+    Chart : {
+      screen : ChartScreen,
+      navigationOptions : {
+        tabBarIcon : ({tintColor}) => <MaterialCommunityIcons name="chart-bar-stacked" size={26}></MaterialCommunityIcons>
       }
     }
   },
+  
+
   {
     tabBarOptions : {
-      // activeTintColor : "#161F3D",
-      // inactiveTintColor : "#B8BBC4",
-      showLabel : true
+       activeTintColor : "#f47468",
+       inactiveTintColor : "#b8bbc4",
+      showLabel : false
     }
     
   }
@@ -79,8 +99,14 @@ export default createAppContainer(
         Loading : LoadingScreen,
         App : AppTabNavigator,
         Auth : AuthStack,
-        Message : PlaylistScreen,
-        Setting : SettingScreen
+        Playlist : PlaylistScreen,
+        Setting : SettingScreen,
+        MusicSetting : Musicplayer,
+        Search : Search,
+        CreateNewList : CreateNewList,
+        ListSongs : ListSongScreen,
+        PlayMusic : PlayMusicScreen,
+        PlayOneSong : PlayOneSong,
     },
     {
       initialRouteName : "Loading"
@@ -121,7 +147,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  errorMessage: {
+  errorPlaylist: {
     height: 72,
     alignItems: 'center',
     justifyContent: 'center',

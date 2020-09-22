@@ -24,11 +24,12 @@ class ListSongItem extends Component {
         super(props);
         this.state = {
             visible: false,
+            visible2: false,
             dataSong: {}
         }
     }
     render() {
-        const visible = this.props.visible
+        // const visible = this.props.visible
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
@@ -57,7 +58,7 @@ class ListSongItem extends Component {
                     onTouchOutside={() => {
                         this.setState({ visible: false });
                     }}>
-                    <View style={{ height: 200, width: 380, backgroundColor: 'white' }}>
+                    <View style={{ height: 200, width: 380, backgroundColor: 'white', alignSelf: 'flex-end' }}>
                         <ModalContent>
                             <View style={{ flexDirection: 'row' }}>
                                 <Image style={style.imageList} source={this.state.dataSong.src}></Image>
@@ -65,21 +66,71 @@ class ListSongItem extends Component {
                                     <Text style={style.itemText}>{this.state.dataSong.name}</Text>
                                     <Text style={style.numOfsong}>{this.state.dataSong.numOfsong}</Text>
                                 </View>
-                                <TouchableOpacity style={{ position: 'absolute', right: 10 }} onPress={() => { this.setState({ visible: false }) }}>
+                                <TouchableOpacity
+                                    style={{ position: 'absolute', right: 10, backgroundColor: "#e5e5e5", borderRadius: 13, height: 26, width: 26, alignItems: 'center' }}
+                                    onPress={() => { this.setState({ visible: false }) }}>
                                     <FontAwesome name="times" size={20} ></FontAwesome>
                                 </TouchableOpacity>
                             </View>
 
                             <View style={style.divider} />
-                            {/* <View style={{flexDirection:'row'}}>
-                                <MaterialIcons name="share" size={24} color="gray"></MaterialIcons>
+
+                            <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+                                <MaterialIcons name="share" size={24} color="gray" style={{ marginRight: 10 }}></MaterialIcons>
                                 <Text style={style.itemText}>Share</Text>
 
-                            </View> */}
+                            </View>
+                            <TouchableOpacity style={{ flexDirection: 'row', marginVertical: 10 }}
+                                onPress={() => { this.setState({ visible: false, visible2: true }) }}>
+                                <MaterialIcons name="delete-forever" size={24} color="gray" style={{ marginRight: 10 }}></MaterialIcons>
+                                <Text style={style.itemText}>Delete Playlist</Text>
+
+                            </TouchableOpacity>
 
                         </ModalContent>
                     </View>
                 </Modal>
+
+                <Modal
+                    // style={{position:'absolute',bottom:30}}
+                    visible={this.state.visible2}
+                    onTouchOutside={() => {
+                        this.setState({ visible2: false });
+                    }}>
+                    <View style={{ height: 200, width: 380, backgroundColor: 'white' }}>
+                        <ModalContent>
+                            <View style={{ flexDirection: 'row' }}>
+                                <MaterialCommunityIcons name="playlist-play" size={26} ></MaterialCommunityIcons>
+                                <Text style={style.itemText}>Confirm Delete</Text>
+
+                                <TouchableOpacity
+                                    style={{ position: 'absolute', right: 10, backgroundColor: "#e5e5e5", borderRadius: 13, height: 26, width: 26, alignItems: 'center' }}
+                                    onPress={() => { this.setState({ visible2: false }) }}>
+                                    <FontAwesome name="times-circle-o" size={26} color="gray"></FontAwesome>
+                                </TouchableOpacity>
+                            </View>
+
+                            <Text style={style.numOfsong, { marginVertical: 10 }}>You can't undo this action</Text>
+
+                            <View style={style.divider} />
+                            <View>
+
+                                <View style={style.ViewDelete}>
+                                    <Text style={style.btnCancel} onPress={() => this.setState({ visible2: false })}>Cancel</Text>
+                                    <LinearGradient colors={['#f57d73', '#f5bb8C']} style={style.ViewbtnCreate}>
+                                        <Text style={style.btnCreate}
+                                            onPress={() => { }}>Delete</Text>
+                                    </LinearGradient>
+
+                                </View>
+                            </View>
+
+                        </ModalContent>
+                    </View>
+                </Modal>
+
+
+
             </View>
         )
     }
@@ -91,7 +142,8 @@ class PlaylistScreen extends React.Component {
         super(props)
         this.state = {
             search: '',
-            visible: false
+            visible3: false,
+
         }
     }
     render() {
@@ -104,30 +156,73 @@ class PlaylistScreen extends React.Component {
                         <FontAwesome name="angle-left" size={26} color="#1e1e1e" />
                     </TouchableOpacity>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Playlist</Text>
-                    <MaterialIcons name="add" size={26} color="red"></MaterialIcons>
+                    <TouchableOpacity onPress={() => { this.setState({ visible3: true }) }}>
+                        <MaterialIcons name="add" size={26} color="red"></MaterialIcons>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={style.header}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <FontAwesome style={style.search} name="search" size={24} color="#969696" />
-                        <TextInput value={this.state.search} onChangeText={(search) => this.setState({ search })} style={style.inputText} placeholder="Search for..." />
+                        <TextInput value={this.state.search} onChangeText={(search) => this.setState({ search })}
+                            style={style.inputText} placeholder="Search for..." />
 
                     </View>
                     <FontAwesome name="times" size={20} style={{ marginRight: 15 }}></FontAwesome>
                 </View>
 
                 <View style={style.bodyContainer}>
-                    <ScrollView>
+                    
                         <ListSongItem visible={this.state.visible} />
-                    </ScrollView>
+                   
                 </View>
 
                 <View style={{ alignItems: 'center', marginVertical: 15 }}>
                     <LinearGradient colors={['#f57d73', '#f5bb8C']} style={style.ViewbtnCreate}>
                         <MaterialIcons name="add" size={20} color="white" ></MaterialIcons>
-                        <Text style={style.btnCreate}>Create Playlist</Text>
+                        <TouchableOpacity onPress={() => { this.setState({ visible3: true }) }}>
+                            <Text style={style.btnCreate}>Create Playlist</Text>
+                        </TouchableOpacity>
                     </LinearGradient>
                 </View>
+
+                <Modal
+                    // style={{position:'absolute',bottom:30}}
+                    visible={this.state.visible3}
+                    onTouchOutside={() => {
+                        this.setState({ visible3: false });
+                    }}>
+                    <View style={{ height: 250, width: 380, backgroundColor: 'white' }}>
+                        <ModalContent>
+                            <View style={{ flexDirection: 'row' }}>
+                                <MaterialCommunityIcons name="playlist-play" size={26} ></MaterialCommunityIcons>
+                                <Text style={style.itemText}>Create Playlist</Text>
+
+                                <TouchableOpacity style={{ position: 'absolute', right: 10, backgroundColor: "#e5e5e5", borderRadius: 13, height: 26, width: 26, alignItems: 'center' }} onPress={() => { this.setState({ visible3: false }) }}>
+                                    <FontAwesome name="times-circle-o" size={26} color="gray"></FontAwesome>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={style.divider} />
+
+                            <View style={{ borderColor: 'gray', borderBottomWidth: 1 }}>
+                                <TextInput style={style.numOfsong} placeholder="Create your own playlist" />
+                                <TextInput style={style.numOfsong} placeholder="Playlist name" />
+                            </View>
+                            <View>
+                                <View style={style.ViewDelete}>
+                                    <Text style={style.btnCancel} onPress={() => this.setState({ visible3: false })}>Cancel</Text>
+                                    <LinearGradient colors={['#f57d73', '#f5bb8C']} style={style.ViewbtnCreate}>
+                                        <Text style={style.btnCreate}
+                                            onPress={() => { }}>Create</Text>
+                                    </LinearGradient>
+
+                                </View>
+                            </View>
+
+                        </ModalContent>
+                    </View>
+                </Modal>
             </View>
 
         )
@@ -140,7 +235,7 @@ const style = StyleSheet.create({
         alignItems: "center"
     },
     divider: {
-        height: 10,
+        height: 15,
         borderBottomColor: 'gray',
         borderBottomWidth: 0.5,
         backgroundColor: 'white'
@@ -184,6 +279,14 @@ const style = StyleSheet.create({
         color: '#1e1e1e',
         fontFamily: 'Gill Sans',
         fontSize: 18,
+        fontWeight: '500',
+        marginHorizontal: 10
+    },
+    itemTextModal: {
+
+        color: '#1e1e1e',
+        fontFamily: 'Gill Sans',
+        fontSize: 18,
         fontWeight: '500'
     },
     search: {
@@ -206,7 +309,7 @@ const style = StyleSheet.create({
     },
     numOfsong: {
         fontSize: 13,
-        color: 'gray', marginLeft: 6
+        color: 'gray', marginLeft: 10
     },
     itemContainer: {
         backgroundColor: '#fff',
@@ -222,6 +325,7 @@ const style = StyleSheet.create({
         borderRadius: 20,
         width: ' 60%', height: 40,
         alignItems: 'center'
+
     },
     btnCreate: {
         marginHorizontal: 20,
@@ -229,7 +333,17 @@ const style = StyleSheet.create({
         fontSize: 20,
         color: 'white'
 
-
+    },
+    btnCancel: {
+        fontWeight: '500',
+        fontSize: 20,
+        color: '#f47468', marginRight: 10
+    },
+    ViewDelete: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginTop: 20
     }
 });
 export default PlaylistScreen;
